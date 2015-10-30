@@ -1,2 +1,2 @@
 # jeu-morpion-tictactoe
-voici un petit jeu tic tac toe que vous connaissez .
+voici un petit jeu tic tac toe.
