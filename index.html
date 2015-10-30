@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Tic Tac Toe</title>
+		<meta charset="UTF-8" />
+<body>
+
+<center><h1>Tic Tac Toe , les regles sont les mêmes que celui du morpion</h1></center>
+</body>
+  <style>
+body{
+	background-color: #856D4D;
+}
+#game{
+				width: 500px;
+				height: 250px;
+				background-color: #61380B;
+				border: 1px solid  #B45F04;
+				margin: 50px auto;
+				padding: 10px;
+				overflow: auto;
+				box-shadow: 1px 6px 10px 12px rgba(242, 169, 22, 0.75);
+	-moz-box-shadow: 1px 6px 10px 12px rgba(242, 169, 22, 0.75);
+	-webkit-box-shadow: 1px 6px 10px 12px rgba(242, 169, 22, 0.75);
+			}
+			#game div{
+				margin: 0px auto;
+				clear: both;
+				width: 190px;
+			}
+			#game button{
+				display: block;
+				width: 50px;
+				height: 50px;
+				float: left;
+				margin: 5px;
+				font-weight: bold;
+			}
+			#gameActionDisplay{
+				padding: 20px 10px;
+				color: #fff;
+			}
+			#game a{
+				color: creme;
+			}
+		</style>
+	</head>
+	<body>
+
+		<div id="game">
+			<div>
+				<button></button>
+				<button></button>
+				<button></button>
+			</div>
+
+			<div>
+				<button></button>
+				<button></button>
+				<button></button>
+			</div>
+
+			<div>
+				<button></button>
+				<button></button>
+				<button></button>
+			</div>
+
+			<div id="gameActionDisplay"></div>
+		</div>
+
+
+		<script>
+			var Display = function(displayElement){
+				var display = displayElement;
+				function setText(message){
+					display.innerHTML = message;
+				}
+				return {setMessage: setText};
+			};
+			function isValid(button){
+				return button.innerHTML.length == 0;
+			}
+			function setMark(btn, mark){
+				btn.innerHTML = mark;
+			}
+			function checkForWinner(squares, players, currentTurn){
+				if (squares[0].innerHTML == players[currentTurn] &&
+				    squares[1].innerHTML == players[currentTurn] &&
+				    squares[2].innerHTML == players[currentTurn])
+				    return true;
+				if (squares[3].innerHTML == players[currentTurn] &&
+				    squares[4].innerHTML == players[currentTurn] &&
+				    squares[5].innerHTML == players[currentTurn])
+				    return true;
+				if (squares[6].innerHTML == players[currentTurn] &&
+				    squares[7].innerHTML == players[currentTurn] &&
+				    squares[8].innerHTML == players[currentTurn])
+				    return true;
+				if (squares[0].innerHTML == players[currentTurn] &&
+				    squares[3].innerHTML == players[currentTurn] &&
+				    squares[6].innerHTML == players[currentTurn])
+				    return true;
+				if (squares[1].innerHTML == players[currentTurn] &&
+				    squares[4].innerHTML == players[currentTurn] &&
+				    squares[7].innerHTML == players[currentTurn])
+				    return true;
+				if (squares[2].innerHTML == players[currentTurn] &&
+				    squares[5].innerHTML == players[currentTurn] &&
+				    squares[8].innerHTML == players[currentTurn])
+				    return true;
+				if (squares[0].innerHTML == players[currentTurn] &&
+				    squares[4].innerHTML == players[currentTurn] &&
+				    squares[8].innerHTML == players[currentTurn])
+				    return true;
+				if (squares[2].innerHTML == players[currentTurn] &&
+				    squares[4].innerHTML == players[currentTurn] &&
+				    squares[6].innerHTML == players[currentTurn])
+				    return true;
+
+			}
+			function isBoardFull(squares){
+				for(var i = 0, len = squares.length; i < len;  i++){
+					if(squares[i].innerHTML.length == 0)
+						return false;
+				}
+				return true;
+			}
+			function main(){
+				var squares = document.querySelectorAll("#game button");
+				var players = ["X", "O"];
+				var currentTurn = 0;
+				var isGameOver = false;
+				var display = new Display(document.querySelector("#gameActionDisplay"));
+				display.setMessage("<center>Le jeu peut commencé.<br/>Joueur " + players[currentTurn] + " c'est ton tour.</center>");
+				for(var i = 0, len = squares.length; i < len;  i++){
+					squares[i].addEventListener("click", function(){
+						if(isGameOver)
+							return;
+						if(!isValid(this)){
+							display.setMessage("Déplacement invalide :(");
+						} else {
+							setMark(this, players[currentTurn]);
+							isGameOver = checkForWinner(squares, players, currentTurn);
+
+							if(isGameOver){
+								display.setMessage("Joueur " + players[currentTurn] + ' a gagné!<br/><a href="tic_tac_toe.html">Rejouer</a>');
+								return;
+							}
+
+							if(isBoardFull(squares)){
+								display.setMessage('Match nul!<br/><a href="tic_tac_toe.html"> Veuillezrejouer</a>');
+								return;
+							}
+
+							currentTurn = currentTurn ^ 1;
+							display.setMessage("Joueur " + players[currentTurn] + " à votre tour !");
+						}
+					});
+				}
+			}
+			main();
+		</script>
+	</body>
+</html>
